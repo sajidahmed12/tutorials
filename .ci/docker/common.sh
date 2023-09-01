@@ -22,9 +22,8 @@ pip_install() {
 
 install_pip_dependencies() {
   pushd /opt/conda
-  # Install all Python dependencies, including PyTorch
   pip_install -r /opt/conda/requirements.txt
-  pip_install --pre torch --index-url https://download.pytorch.org/whl/nightly/cpu
+  as_ci_user conda run -n "py_${PYTHON_VERSION}" pip uninstall -y ghstack
   popd
 }
 
