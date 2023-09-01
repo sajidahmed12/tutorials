@@ -8,7 +8,7 @@ RUN apt-get update
 RUN apt-get install -y --no-install-recommends unzip p7zip-full sox libsox-dev libsox-fmt-all rsync
 
 COPY ./common.sh common.sh
-COPY requirements.txt /opt/conda
+COPY ./requirements.txt /opt/conda
 RUN bash ./common.sh && rm common.sh /opt/conda/requirements.txt
 
 USER jenkins
