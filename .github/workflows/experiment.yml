@@ -33,6 +33,8 @@ jobs:
       - name: Setup Linux
         uses: pytorch/test-infra/.github/actions/setup-linux@main
 
+      - run: cp requirements.txt .ci/docker
+
       - name: Build docker image
         id: build-docker-image
         uses: pytorch/test-infra/.github/actions/calculate-docker-image@main
