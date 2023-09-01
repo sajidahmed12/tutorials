@@ -71,7 +71,6 @@ jobs:
         uses: pytorch/test-infra/.github/actions/calculate-docker-image@main
         with:
           docker-image-name: csl-tutorials-experiment
-          push: true
 
       - name: Build
         shell: bash
