@@ -27,4 +27,7 @@ install_pip_dependencies() {
   popd
 }
 
+# Don't want to use sccache
+rm -rf /opt/cache/bin/*
+
 install_pip_dependencies
