@@ -1,7 +1,7 @@
 name: Build tutorials
 
 on:
-  # pull_request:
+  pull_request:
   push:
     branches:
       - main
@@ -16,21 +16,21 @@ jobs:
     strategy:
       matrix:
         include:
-          - { shard: 1, num_shards: 15, runner: "linux.16xlarge.nvidia.gpu" }
+          # - { shard: 1, num_shards: 15, runner: "linux.16xlarge.nvidia.gpu" }
           - { shard: 2, num_shards: 15, runner: "linux.g5.4xlarge.nvidia.gpu" }
-          - { shard: 3, num_shards: 15, runner: "linux.g5.4xlarge.nvidia.gpu" }
-          - { shard: 4, num_shards: 15, runner: "linux.g5.4xlarge.nvidia.gpu" }
-          - { shard: 5, num_shards: 15, runner: "linux.g5.4xlarge.nvidia.gpu" }
-          - { shard: 6, num_shards: 15, runner: "linux.g5.4xlarge.nvidia.gpu" }
-          - { shard: 7, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
-          - { shard: 8, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
-          - { shard: 9, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
-          - { shard: 10, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
-          - { shard: 11, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
-          - { shard: 12, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
-          - { shard: 13, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
-          - { shard: 14, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
-          - { shard: 15, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
+          # - { shard: 3, num_shards: 15, runner: "linux.g5.4xlarge.nvidia.gpu" }
+          # - { shard: 4, num_shards: 15, runner: "linux.g5.4xlarge.nvidia.gpu" }
+          # - { shard: 5, num_shards: 15, runner: "linux.g5.4xlarge.nvidia.gpu" }
+          # - { shard: 6, num_shards: 15, runner: "linux.g5.4xlarge.nvidia.gpu" }
+          # - { shard: 7, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
+          # - { shard: 8, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
+          # - { shard: 9, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
+          # - { shard: 10, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
+          # - { shard: 11, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
+          # - { shard: 12, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
+          # - { shard: 13, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
+          # - { shard: 14, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
+          # - { shard: 15, num_shards: 15, runner: "linux.4xlarge.nvidia.gpu" }
       fail-fast: false
     runs-on: ${{ matrix.runner }}
     env:
@@ -54,28 +54,27 @@ jobs:
       - name: Install nvidia driver, nvidia-docker runtime, set GPU_FLAG
         uses: pytorch/test-infra/.github/actions/setup-nvidia@main
 
-      # - name: Calculate docker image
-      #   shell: bash
-      #   id: docker-image
-      #   run: |
-      #     set -ex
+      - name: Calculate docker image
+        shell: bash
+        id: docker-image
+        run: |
+          set -ex
 
-      #     # for some reason, pip installs it in a different place than what is looked at in the py file
-      #     pip3 install requests==2.26
-      #     pyTorchDockerImageTag=$(python3 .jenkins/get_docker_tag.py)
+          # for some reason, pip installs it in a different place than what is looked at in the py file
+          pip3 install requests==2.26
+          pyTorchDockerImageTag=$(python3 .jenkins/get_docker_tag.py)
 
-      #     echo "docker-image=${DOCKER_IMAGE}:${pyTorchDockerImageTag}" >> "${GITHUB_OUTPUT}"
+          echo "docker-image=${DOCKER_IMAGE}:${pyTorchDockerImageTag}" >> "${GITHUB_OUTPUT}"
 
-      - name: Build docker image
-        id: build-docker-image
-        uses: pytorch/test-infra/.github/actions/calculate-docker-image@main
+      - name: Pull docker image
+        uses: pytorch/test-infra/.github/actions/pull-docker-image@main
         with:
-          docker-image-name: csl-tutorials-experiment
+          docker-image: ${{ steps.docker-image.outputs.docker-image }}
 
       - name: Build
         shell: bash
         env:
-          DOCKER_IMAGE: ${{ steps.build-docker-image.outputs.docker-image }}
+          DOCKER_IMAGE: ${{ steps.docker-image.outputs.docker-image }}
           NUM_WORKERS: ${{ matrix.num_shards }}
           WORKER_ID: ${{ matrix.shard }}
           COMMIT_ID: ${{ github.sha }}
@@ -113,6 +112,7 @@ jobs:
         if: always()
 
   manager:
+    if: false
     name: pytorch_tutorial_build_manager
     needs: worker
     runs-on: [self-hosted, linux.2xlarge]
