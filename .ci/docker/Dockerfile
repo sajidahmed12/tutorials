@@ -11,5 +11,8 @@ COPY ./common.sh common.sh
 COPY ./requirements.txt /opt/conda
 RUN bash ./common.sh && rm common.sh /opt/conda/requirements.txt
 
+COPY ./download_data.sh download_data.sh
+RUN bash ownload_data.sh && rm download_data.sh
+
 USER jenkins
 CMD ["bash"]
