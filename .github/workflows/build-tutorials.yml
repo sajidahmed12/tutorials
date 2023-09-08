@@ -55,15 +55,20 @@ jobs:
         uses: pytorch/test-infra/.github/actions/setup-nvidia@main
 
       - name: Build docker image
-        id: build-docker-image
+        id: calculate-docker-image
         uses: pytorch/test-infra/.github/actions/calculate-docker-image@main
         with:
           docker-image-name: csl-tutorials-experiment
 
+      - name: Pull docker image
+        uses: pytorch/test-infra/.github/actions/pull-docker-image@main
+        with:
+          docker-image: ${{ steps.calculate-docker-image.outputs.docker-image }}
+
       - name: Build
         shell: bash
         env:
-          DOCKER_IMAGE: ${{ steps.build-docker-image.outputs.docker-image }}
+          DOCKER_IMAGE: ${{ steps.calculate-docker-image.outputs.docker-image }}
           NUM_WORKERS: ${{ matrix.num_shards }}
           WORKER_ID: ${{ matrix.shard }}
           COMMIT_ID: ${{ github.sha }}
@@ -122,27 +127,21 @@ jobs:
       - name: Setup Linux
         uses: pytorch/pytorch/.github/actions/setup-linux@main
 
-      - name: Calculate docker image
-        shell: bash
-        id: docker-image
-        run: |
-          set -ex
-
-          # for some reason, pip installs it in a different place than what is looked at in the py file
-          pip3 install requests==2.26
-          pyTorchDockerImageTag=$(python3 .jenkins/get_docker_tag.py)
-
-          echo "docker-image=${DOCKER_IMAGE}:${pyTorchDockerImageTag}" >> "${GITHUB_OUTPUT}"
+      - name: Build docker image
+        id: calculate-docker-image
+        uses: pytorch/test-infra/.github/actions/calculate-docker-image@main
+        with:
+          docker-image-name: csl-tutorials-experiment
 
       - name: Pull docker image
         uses: pytorch/test-infra/.github/actions/pull-docker-image@main
         with:
-          docker-image: ${{ steps.docker-image.outputs.docker-image }}
+          docker-image: ${{ steps.calculate-docker-image.outputs.docker-image }}
 
       - name: Build
         shell: bash
         env:
-          DOCKER_IMAGE: ${{ steps.docker-image.outputs.docker-image }}
+          DOCKER_IMAGE: ${{ steps.calculate-docker-image.outputs.docker-image }}
           NUM_WORKERS: 15
           WORKER_ID: ${{ matrix.shard }}
           COMMIT_ID: ${{ github.sha }}
