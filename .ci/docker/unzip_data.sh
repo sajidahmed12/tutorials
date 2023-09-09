@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DATADIR=/data/tutorials
+DATADIR=/data/tutorialsdata
 mkdir -p advanced_source/data
 mkdir -p beginner_source/data
 mkdir -p intermediate_source/data
