@@ -39,7 +39,7 @@ download:
 	# Step2-3. AS-IS: cp $(DATADIR)/[SOURCE_FILE] [*_source/data/]
 
 	# make data directories
-	.ci/docker/unzip_data.sh
+	bash .ci/docker/unzip_data.sh
 
 docs:
 	make download
