@@ -164,7 +164,8 @@
     "duration": 876.82,
     "extra_files": [
       "intermediate_source/mnist_train_nas.py"
-    ]
+    ],
+    "needs": "linux.g5.4xlarge.nvidia.gpu"
   },
   "intermediate_source/char_rnn_classification_tutorial.py": {
     "duration": 614.3
