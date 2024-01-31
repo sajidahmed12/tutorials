@@ -15,6 +15,7 @@ def get_all_files() -> List[str]:
 
 
 def read_metadata() -> Dict[str, Any]:
+    # dcgan doesn't actually need a10g, but it's a lot faster on it
     with (REPO_BASE_DIR / ".jenkins" / "metadata.json").open() as fp:
         return json.load(fp)
 

@@ -64,7 +64,8 @@
     "duration": 2.68
   },
   "beginner_source/dcgan_faces_tutorial.py": {
-    "duration": 419.45
+    "duration": 419.45,
+    "needs": "linux.g5.4xlarge.nvidia.gpu"
   },
   "beginner_source/deploy_seq2seq_hybrid_frontend_tutorial.py": {
     "duration": 0.7
