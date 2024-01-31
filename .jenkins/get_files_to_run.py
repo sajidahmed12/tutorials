@@ -15,7 +15,8 @@ def get_all_files() -> List[str]:
 
 
 def read_metadata() -> Dict[str, Any]:
-    # dcgan and ax_multiobjective_nas_tutorial don't actually need a10g, but it's a lot faster on it
+    # dcgan, ax_multiobjective_nas_tutorial, seq2seq_translation_tutorial don't
+    # actually need a10g, but it's a lot faster on it
     with (REPO_BASE_DIR / ".jenkins" / "metadata.json").open() as fp:
         return json.load(fp)
 
