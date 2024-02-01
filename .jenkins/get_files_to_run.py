@@ -67,7 +67,24 @@ def calculate_shards(all_files: List[str], num_shards: int = 20) -> List[List[st
             0
         ]
         add_to_shard(min_shard_index, filename)
-    return [x[1] for x in sharded_files]
+    s = [
+        ["intermediate_source/torchvision_tutorial.py"],
+        [
+            "beginner_source/introyt/modelsyt_tutorial.py",
+            "intermediate_source/pruning_tutorial.py"
+            "intermediate_source/torchvision_tutorial.py",
+        ],
+        [
+            "beginner_source/basics/tensorqs_tutorial.py",
+            "beginner_source/examples_nn/polynomial_nn.py",
+            "intermediate_source/torchvision_tutorial.py"
+        ],
+        [
+            "beginner_source/nlp/word_embeddings_tutorial.py",
+            "intermediate_source/torchvision_tutorial.py"
+        ],
+    ]
+    return s
 
 
 def compute_files_to_keep(files_to_run: List[str]) -> List[str]:
@@ -100,6 +117,7 @@ def main() -> None:
 
     all_files = get_all_files()
     files_to_run = calculate_shards(all_files, num_shards=args.num_shards)[args.shard_num - 1]
+    print(files_to_run)
     if not args.dry_run:
         remove_other_files(all_files, compute_files_to_keep(files_to_run))
     stripped_file_names = [Path(x).stem for x in files_to_run]
