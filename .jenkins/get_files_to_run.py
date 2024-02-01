@@ -54,9 +54,11 @@ def calculate_shards(all_files: List[str], num_shards: int = 20) -> List[List[st
         add_to_shard(0, filename)
         all_other_files.remove(filename)
     for filename in needs_a10g:
-        # currently, workers 1-5 use linux.g5.4xlarge.nvidia.gpu (sm86, A10G),
-        # so we'll add all the jobs that need this machine to the 1st worker
-        add_to_shard(1, filename)
+        # currently, workers 1-5 use linux.g5.4xlarge.nvidia.gpu (sm86, A10G)
+        min_shard_index = sorted(range(1, 6), key=lambda i: sharded_files[i][0])[
+            0
+        ]
+        add_to_shard(min_shard_index, filename)
         all_other_files.remove(filename)
     sorted_files = sorted(all_other_files, key=get_duration, reverse=True,)
 
