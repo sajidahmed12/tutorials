@@ -45,8 +45,14 @@ Datasets & DataLoaders
 #  - ``transform`` and ``target_transform`` specify the feature and label transformations
 
 
-import torch
-from torch.utils.data import Dataset
+
 from torchvision import datasets
 from torchvision.transforms import ToTensor
-import matplotlib.pyplot as plt
+
+
+training_data = datasets.FashionMNIST(
+    root="data",
+    train=True,
+    download=True,
+    transform=ToTensor()
+)
