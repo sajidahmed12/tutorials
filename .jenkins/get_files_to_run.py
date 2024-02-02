@@ -68,19 +68,21 @@ def calculate_shards(all_files: List[str], num_shards: int = 20) -> List[List[st
         ]
         add_to_shard(min_shard_index, filename)
     s = [
-        ["intermediate_source/torchvision_tutorial.py"],
         [
-            "beginner_source/introyt/modelsyt_tutorial.py",
-            "intermediate_source/pruning_tutorial.py",
-            "intermediate_source/torchvision_tutorial.py",
-        ],
-        [
-            "beginner_source/basics/tensorqs_tutorial.py",
-            "beginner_source/examples_nn/polynomial_nn.py",
+            "beginner_source/nlp/deep_learning_tutorial.py",
             "intermediate_source/torchvision_tutorial.py"
         ],
         [
-            "beginner_source/nlp/word_embeddings_tutorial.py",
+            "beginner_source/hybrid_frontend/learning_hybrid_frontend_through_example_tutorial.py",
+            "intermediate_source/torchvision_tutorial.py",
+        ],
+        [
+            "beginner_source/blitz/neural_networks_tutorial.py",
+            "intermediate_source/torchvision_tutorial.py"
+        ],
+        [
+            "beginner_source/template_tutorial.p",
+            "beginner_source/basics/data_tutorial.py",
             "intermediate_source/torchvision_tutorial.py"
         ],
     ]
