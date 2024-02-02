@@ -71,7 +71,7 @@ def calculate_shards(all_files: List[str], num_shards: int = 20) -> List[List[st
         ["intermediate_source/torchvision_tutorial.py"],
         [
             "beginner_source/introyt/modelsyt_tutorial.py",
-            "intermediate_source/pruning_tutorial.py"
+            "intermediate_source/pruning_tutorial.py",
             "intermediate_source/torchvision_tutorial.py",
         ],
         [
@@ -117,8 +117,9 @@ def main() -> None:
 
     all_files = get_all_files()
     files_to_run = calculate_shards(all_files, num_shards=args.num_shards)[args.shard_num - 1]
+    files_to_keep = compute_files_to_keep(files_to_run)
     if not args.dry_run:
-        remove_other_files(all_files, compute_files_to_keep(files_to_run))
+        remove_other_files(all_files, files_to_keep)
     stripped_file_names = [Path(x).stem for x in files_to_run]
     print(" ".join(stripped_file_names))
 
