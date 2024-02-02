@@ -69,7 +69,6 @@ def calculate_shards(all_files: List[str], num_shards: int = 20) -> List[List[st
         add_to_shard(min_shard_index, filename)
     s = [
         [
-            "beginner_source/basics/data_tutorial_1.py",
             "intermediate_source/torchvision_tutorial.py"
         ]
     ]

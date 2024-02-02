@@ -4,6 +4,18 @@ TorchVision Object Detection Finetuning Tutorial
 ====================================================
 """
 
+
+
+from torchvision.datasets import FashionMNIST
+from torchvision.transforms import ToTensor
+
+
+training_data = FashionMNIST(
+    root="data",
+    train=True,
+    download=True,
+    transform=ToTensor()
+)
 ######################################################################
 #
 # For this tutorial, we will be finetuning a pre-trained `Mask
