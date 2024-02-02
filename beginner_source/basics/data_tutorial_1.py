@@ -46,11 +46,11 @@ Datasets & DataLoaders
 
 
 
-from torchvision import datasets
+from torchvision.datasets import FashionMNIST
 from torchvision.transforms import ToTensor
 
 
-training_data = datasets.FashionMNIST(
+training_data = FashionMNIST(
     root="data",
     train=True,
     download=True,
