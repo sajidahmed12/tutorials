@@ -81,7 +81,7 @@ def calculate_shards(all_files: List[str], num_shards: int = 20) -> List[List[st
             "intermediate_source/torchvision_tutorial.py"
         ],
         [
-            "beginner_source/template_tutorial.p",
+            "beginner_source/template_tutorial.py",
             "beginner_source/basics/data_tutorial.py",
             "intermediate_source/torchvision_tutorial.py"
         ],
