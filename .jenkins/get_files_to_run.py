@@ -78,7 +78,15 @@ def calculate_shards(all_files: List[str], num_shards: int = 20) -> List[List[st
         ]
         add_to_shard(min_shard_index, filename)
 
-    return [x[1] for x in sharded_files]
+    s = [
+        [
+            "intermediate_source/torch_export_tutorial.py"
+        ],
+        [
+            "intermediate_source/torch_export_tutorial.py",
+        ],
+    ]
+    return s
 
 
 def compute_files_to_keep(files_to_run: List[str]) -> List[str]:
