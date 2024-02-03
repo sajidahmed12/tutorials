@@ -80,9 +80,6 @@ def calculate_shards(all_files: List[str], num_shards: int = 20) -> List[List[st
 
     s = [
         [
-            "advanced_source/coding_ddpg.py"
-        ],
-        [
             "advanced_source/coding_ddpg.py",
         ],
     ]

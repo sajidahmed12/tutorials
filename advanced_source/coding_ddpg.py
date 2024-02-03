@@ -73,7 +73,7 @@ import multiprocessing
 try:
     multiprocessing.set_start_method("fork")
 except RuntimeError:
-    assert multiprocessing.get_start_method() == "fork"
+    assert multiprocessing.get_start_method() == "fork", f"Got {multiprocessing.get_start_method()}"
 # sphinx_gallery_end_ignore
 
 
@@ -1225,9 +1225,9 @@ plt.tight_layout()
 #
 # Next Steps
 # ----------
-# 
+#
 # To iterate further on this loss module we might consider:
-# 
+#
 # - Using `@dispatch` (see `[Feature] Distpatch IQL loss module <https://github.com/pytorch/rl/pull/1230>`_.)
 # - Allowing flexible TensorDict keys.
-# 
+#
