@@ -1,5 +1,5 @@
 # Run this script to update the metadata.json file with the latest computation
-# times from main
+# times from main and then make a PR to commit the change to the repo.
 import os
 import re
 from urllib.request import urlopen

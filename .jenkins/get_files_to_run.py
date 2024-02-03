@@ -16,7 +16,7 @@ def get_all_files() -> List[str]:
 
 def read_metadata() -> Dict[str, Any]:
     # dcgan, ax_multiobjective_nas_tutorial, seq2seq_translation_tutorial don't
-    # actually need a10g, but it's a lot faster on it
+    # actually need a10g, but they're a lot faster on it
     with (REPO_BASE_DIR / ".jenkins" / "metadata.json").open() as fp:
         return json.load(fp)
 
@@ -48,6 +48,16 @@ def calculate_shards(all_files: List[str], num_shards: int = 20) -> List[List[st
     needs_a10g = list(
         filter(lambda x: get_needs_machine(x) == "linux.g5.4xlarge.nvidia.gpu", all_files,)
     )
+
+    # Magic code for torchvision: for some reason, it needs to run after
+    # beginner_source/basics/data_tutorial.py.  Very specifically:
+    # https://github.com/pytorch/tutorials/blob/edff1330ca6c198e8e29a3d574bfb4afbe191bfd/beginner_source/basics/data_tutorial.py#L49-L60
+    # So manually add them to the last shard
+    add_to_shard(num_shards - 1, "beginner_source/basics/data_tutorial.py")
+    add_to_shard(num_shards - 1, "intermediate_source/torchvision_tutorial.py")
+    all_other_files.remove("beginner_source/basics/data_tutorial.py")
+    all_other_files.remove("intermediate_source/torchvision_tutorial.py")
+
     for filename in needs_multigpu:
         # currently, the only job that has multigpu is the 0th worker,
         # so we'll add all the jobs that need this machine to the 0th worker
@@ -67,12 +77,8 @@ def calculate_shards(all_files: List[str], num_shards: int = 20) -> List[List[st
             0
         ]
         add_to_shard(min_shard_index, filename)
-    s = [
-        [
-            "intermediate_source/torchvision_tutorial.py"
-        ]
-    ]
-    return s
+
+    return [x[1] for x in sharded_files]
 
 
 def compute_files_to_keep(files_to_run: List[str]) -> List[str]:
