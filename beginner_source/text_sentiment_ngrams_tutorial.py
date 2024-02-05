@@ -179,7 +179,8 @@ class TextClassificationModel(nn.Module):
 
     def forward(self, text, offsets):
         embedded = self.embedding(text, offsets)
-        return self.fc(embedded)
+        fc = self.fc(embedded)
+        return fc
 
 
 ######################################################################
@@ -248,7 +249,6 @@ def evaluate(dataloader):
     with torch.no_grad():
         for idx, (label, text, offsets) in enumerate(dataloader):
             predicted_label = model(text, offsets)
-            loss = criterion(predicted_label, label)
             total_acc += (predicted_label.argmax(1) == label).sum().item()
             total_count += label.size(0)
     return total_acc / total_count
